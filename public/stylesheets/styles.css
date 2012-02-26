@@ -2,10 +2,14 @@ body {
   background-image: url("../img/stripe.png"); }
 
 #myModal {
-  text-align: center; }
-  #myModal img {
-    height: 500px;
-    border: 15px solid #ea00ff; }
+  text-align: center;
+  border: 15px solid #ea00ff;
+  max-height: none; }
+  #myModal height
+  img {
+    max-width: none;
+    width: 59px;
+    height: auto; }
 
 .selected {
   border: 5px solid #ea00ff; }

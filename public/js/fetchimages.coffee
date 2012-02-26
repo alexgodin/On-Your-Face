@@ -32,15 +32,27 @@ $(document).ready ->
         $.ajax({ url :"/bar/#{@bodyPhotoId}/#{@facePhotoId}", async : true, crossDomain : true, success : (results) =>
           urls = JSON.parse(results)['urls']
           $('#garbagetext').hide()
-          for url in urls
-            console.log(url)
-            $('#myModal #resultimage').append("<img src='#{url}'")
-          #while true
-            #$('.image-0').fadeIn('fast', $('.image-0').fadeOut('fast', $('.image-1').fadeIn('fast', $('.image-1').fadeOut('fast', $('.image-2').fadeIn('fast', $('.image-2').fadeOut('fast', $('.image-3').fadeIn('fast', $('.image-3').fadeOut('fast', $('.image-4').fadeIn('fast', $('.image-4').fadeOut('fast', $('.image-3').fadeIn('fast', $('.image-3').fadeOut('fast', $('.image-2').fadeIn('fast', $('.image-2').fadeOut('fast', $('.image-1').fadeIn('fast', $('.image-1').fadeOut('fast', $('.image-0').fadeIn('fast', $('.image-0').fadeOut('fast'))))))))))))))))))
-          #fadeOneToTwo = () ->
-          #fadeTwoToThree = () ->
-          #fadeThreeToFour = () ->
-          #fadeFourToFive = () ->
+          for url,i in urls
+            if i != 0
+              $('#myModal #resultimage').append("<img src='#{url}' class'notfirst'>")
+            else
+              $('#myModal #resultimage').append("<img src='#{url}'>")
+
+          setInterval( () ->
+            $("#resultimage img").each (index) ->
+              if $(this).is(":visible")
+                console.log("#{index} is visible toggling")
+                $(this).toggle()
+                if index != 4
+                  $($("#resultimage img")[index+1]).toggle()
+                  console.log("#{index+1} is the one to toggle")
+                else
+                  $($("#resultimage img")[0]).toggle()
+                  console.log("0 is the one to toggle")
+            console.log("finished a cycle")
+            return arguments.callee
+          , 500)
         })
       })
     })
+

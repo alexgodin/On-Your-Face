@@ -45,9 +45,13 @@ body{
 
 #myModal{
   text-align:center;
+  border: 15px solid $pink;
+  max-height: none;
+  height 
   img{
-    height: 500px;
-    border: 15px solid $pink;
+    max-width: none;
+    width: 59px;
+    height: auto;
   }
 }
 
