@@ -193,7 +193,7 @@ def do_the_foo(image_id, other_image_id)
   width_p = 500
   height_p = ((height.to_f / width.to_f) * width_p).to_i
   puts "height: #{height_p}. width: #{width_p}"
-  output.map{|o| "http://flashfotoapi.com/api/get/510?width=#{width_p}&height=#{height_p}" }
+  output.map{|o| "http://flashfotoapi.com/api/get/#{o}?width=#{width_p}&height=#{height_p}" }
   
   #puts "all merges complete: result: #{previous_image_id}"
 
