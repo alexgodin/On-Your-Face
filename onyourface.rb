@@ -92,7 +92,7 @@ end
 get "/bar/:image_id/:other_image_id" do
   urls = do_the_foo(params[:image_id], params[:other_image_id])
   #{:url => "http://flashfotoapi.com/api/get/#{id}"}.to_json
-  {:urls => urls}
+  {:urls => urls}.to_json
 end
 
 

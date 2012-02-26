@@ -1,12 +1,11 @@
 body {
-  font-family: "cubano",sans-serif;
-  font-style: normal;
-  font-weight: 400;
   background-image: url("../img/stripe.png"); }
 
-#header-image {
-  float: center;
-  margin-top: 45px; }
+#myModal {
+  text-align: center; }
+  #myModal img {
+    height: 500px;
+    border: 15px solid #ea00ff; }
 
 .selected {
   border: 5px solid #ea00ff; }
@@ -17,7 +16,8 @@ body {
   margin-top: 15px; }
 
 #header {
-  text-align: center; }
+  text-align: center;
+  margin-top: 30px; }
 
 #twocolumnrow {
   -webkit-border-radius: 15px;
@@ -26,13 +26,15 @@ body {
   -o-border-radius: 15px;
   border-radius: 15px;
   margin-top: 30px;
-  text-align: center;
-  background-color: #b5b5bf; }
+  text-align: center; }
   #twocolumnrow .form-search {
     width: 300px;
     margin-left: auto;
     margin-right: auto; }
     #twocolumnrow .form-search input {
+      font-family: "cubano",sans-serif;
+      font-style: normal;
+      font-weight: 400;
       width: 70%;
       height: 60px;
       font-size: 40px; }
