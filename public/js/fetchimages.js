@@ -26,7 +26,7 @@
         }
       });
     });
-    return $('.right .btn').click(function() {
+    $('.right .btn').click(function() {
       return $.ajax({
         url: "/search/" + ($('.right input')[0].value),
         async: true,
@@ -47,6 +47,34 @@
             }));
           }
           return _results;
+        }
+      });
+    });
+    return $('.btn-danger').click(function() {
+      return $.ajax({
+        url: "/foo/" + ($('.right .selected').data('id')),
+        async: true,
+        crossDomain: true,
+        success: function(results) {
+          _this.bodyPhotoId = JSON.parse(results)['photo_id'];
+          return $.ajax({
+            url: "/foo/" + ($('.left .selected').data('id')),
+            async: true,
+            crossDomain: true,
+            success: function(results) {
+              _this.facePhotoId = JSON.parse(results)['photo_id'];
+              return $.ajax({
+                url: "/bar/" + _this.bodyPhotoId + "/" + _this.facePhotoId,
+                async: true,
+                crossDomain: true,
+                success: function(results) {
+                  var url;
+                  url = JSON.parse(results)['url'];
+                  return console.log(url);
+                }
+              });
+            }
+          });
         }
       });
     });

@@ -5,6 +5,7 @@ require 'open-uri'
 require 'aws/s3'
 require File.dirname(__FILE__) + "/FlashPhoto.rb"
 
+
 configure do
   set :bind, '0.0.0.0'
   GETTY = Getty.new
@@ -51,6 +52,8 @@ get "/foo/:image_id" do
   #  url = obj.url
   #rescue
     #image not found!\
+    
+    puts "#{params[:photo_id]}"
     puts "image not found on s3, getting auth token"
     token = GETTY.get_image_authorization_token(params[:image_id])    
     if token == nil || token == ""
@@ -99,6 +102,7 @@ def download full_url, to_here
   writeOut.write(open(full_url).read)
   writeOut.close
 end
+<<<<<<< HEAD
 
 FLASH_USERNAME = "alex"
 FLASH_PASSWORD = "i6tNMuI1zSloXbQyIjaDcMtscKU0eOzH"

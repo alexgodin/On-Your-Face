@@ -16,9 +16,13 @@ $(document).ready ->
           $(event.target).toggleClass("selected")
     })
   $('.btn-danger').click =>
-    $.ajax({ url :"/foo/#{$('.left .selected').data('id')}", async : true, crossDomain : true, success : (results) =>
-      photoId = JSON.parse(results)['photo_id']
-      console.log(photo_id)
-
-
-
+    $.ajax({ url :"/foo/#{$('.right .selected').data('id')}", async : true, crossDomain : true, success : (results) =>
+      @bodyPhotoId = JSON.parse(results)['photo_id']
+      $.ajax({ url :"/foo/#{$('.left .selected').data('id')}", async : true, crossDomain : true, success : (results) =>
+        @facePhotoId = JSON.parse(results)['photo_id']
+        $.ajax({ url :"/bar/#{@bodyPhotoId}/#{@facePhotoId}", async : true, crossDomain : true, success : (results) =>
+          url = JSON.parse(results)['url']
+          console.log(url)
+        })
+      })
+    })
