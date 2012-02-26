@@ -1,4 +1,5 @@
 $(document).ready ->
+
   $('.left .btn').click =>
     $.ajax({ url :"/search/#{$('.left input')[0].value}", async : true, crossDomain : true, success : (results) =>
       for picture in JSON.parse(results)
