@@ -39,18 +39,16 @@ $(document).ready ->
               $('#myModal #resultimage').append("<img src='#{url}'>")
 
           setInterval( () ->
-            $("#resultimage img").each (index) ->
-              if $(this).is(":visible")
-                $(this).toggle()
+            for image,index in $("#resultimage img")
+              if $(image).is(":visible")
+                $(image).toggle()
                 if index != 4
                   $($("#resultimage img")[index+1]).toggle()
                 else
                   $($("#resultimage img")[0]).toggle()
                 return false
-            console.log("finished a cycle")
             return arguments.callee
-          , 250)
+          , 300)
         })
       })
     })
-

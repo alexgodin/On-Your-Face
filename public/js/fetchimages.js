@@ -97,9 +97,12 @@
                     }
                   }
                   return setInterval(function() {
-                    $("#resultimage img").each(function(index) {
-                      if ($(this).is(":visible")) {
-                        $(this).toggle();
+                    var image, index, _len2, _ref;
+                    _ref = $("#resultimage img");
+                    for (index = 0, _len2 = _ref.length; index < _len2; index++) {
+                      image = _ref[index];
+                      if ($(image).is(":visible")) {
+                        $(image).toggle();
                         if (index !== 4) {
                           $($("#resultimage img")[index + 1]).toggle();
                         } else {
@@ -107,10 +110,9 @@
                         }
                         return false;
                       }
-                    });
-                    console.log("finished a cycle");
+                    }
                     return arguments.callee;
-                  }, 250);
+                  }, 300);
                 }
               });
             }
