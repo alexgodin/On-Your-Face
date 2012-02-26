@@ -102,7 +102,6 @@ def download full_url, to_here
   writeOut.write(open(full_url).read)
   writeOut.close
 end
-<<<<<<< HEAD
 
 FLASH_USERNAME = "alex"
 FLASH_PASSWORD = "i6tNMuI1zSloXbQyIjaDcMtscKU0eOzH"
@@ -131,7 +130,7 @@ def do_the_foo(image_id, other_image_id)
   puts "waiting for segmentation to finish"
   i = 0
   while(true) 
-    if i > 20 
+    if i > 50 
       puts "waited too long, abandoning"
       return
     end
@@ -179,4 +178,5 @@ def do_the_foo(image_id, other_image_id)
   
   puts "all merges complete: result: #{previous_image_id}"
   puts previous_image_id
+  return previous_image_id
 end
