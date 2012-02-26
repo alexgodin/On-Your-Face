@@ -192,7 +192,7 @@ def do_the_foo(image_id, other_image_id)
   end
   
   output = []
-  [-6,-3,0,3,6].each do |bobble|
+  [-4,-3,0,2,4].each do |bobble|
     previous_image_id = image_id  
     other_face_i = 0
     puts "iterating over faces in first image"
@@ -201,7 +201,7 @@ def do_the_foo(image_id, other_image_id)
       puts "calculating data"
       angle = face["Face"]["head_rotation"] + bobble 
       ratio = (face["Face"]["head_width"].to_f / other_face["Face"]["head_width"].to_f) * 120
-      x = face["Face"]["head_position_x"] - 100
+      x = face["Face"]["head_position_x"]
       y = face["Face"]["head_position_y"] + (face["Face"]["head_width"] / 2)
     
       json = JSON.generate([
