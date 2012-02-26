@@ -1,0 +1,81 @@
+body {
+  font-family: "cubano",sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  background-image: url("../img/stripe.png"); }
+
+#header-image {
+  float: center;
+  margin-top: 45px; }
+
+.selected {
+  border: 5px solid #ea00ff; }
+
+#subheader-image {
+  float: center;
+  margin-bottom: 25px;
+  margin-top: 15px; }
+
+#header {
+  text-align: center; }
+
+#twocolumnrow {
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+  border-radius: 15px;
+  margin-top: 30px;
+  text-align: center;
+  background-color: #b5b5bf; }
+  #twocolumnrow .form-search {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto; }
+    #twocolumnrow .form-search input {
+      width: 70%;
+      height: 60px;
+      font-size: 40px; }
+    #twocolumnrow .form-search .btn {
+      height: 60px;
+      font-size: 40px;
+      border-radius: 20px;
+      -moz-border-radius: 20px;
+      -webkit-border-radius: 20px; }
+  #twocolumnrow .left #images {
+    float: left;
+    margin-left: 80px;
+    margin-right: 80px; }
+    #twocolumnrow .left #images img {
+      width: 75px;
+      margin-left: 5px;
+      margin-right: 5px;
+      margin-top: 5px;
+      margin-bottom: 5px; }
+      #twocolumnrow .left #images img:hover {
+        border: 5px solid #ea00ff; }
+  #twocolumnrow .right #images {
+    float: left;
+    margin-left: 80px;
+    margin-right: 80px; }
+    #twocolumnrow .right #images img {
+      width: 75px;
+      margin-left: 5px;
+      margin-right: 5px;
+      margin-top: 5px;
+      margin-bottom: 5px; }
+      #twocolumnrow .right #images img:hover {
+        border: 5px solid #ea00ff; }
+
+#merge {
+  text-align: center; }
+  #merge .btn-danger {
+    border-radius: 30px;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
+    height: 50px;
+    font-size: 20px; }

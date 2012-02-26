@@ -1,0 +1,118 @@
+@import 'bourbon/bourbon';
+
+$columnbackground: #b5b5bf;
+$pink:              #ea00ff;
+
+@mixin center(){
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin rounded($radius: 10px) {
+  border-radius: $radius;
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+}
+
+@mixin column(){
+  #images{
+    float:left;
+
+    margin:{
+      left:80px;
+      right:80px;
+    }
+
+    img{
+      width:75px;
+
+      margin:{
+        left: 5px;
+        right: 5px;
+        top: 5px;
+        bottom: 5px;
+      }
+      &:hover{
+        border: 5px solid $pink;
+      }
+    }
+  }
+}
+
+body{
+  background-image: url("../img/stripe.png");
+}
+
+
+#header-image{
+  float: center;
+  margin-top:45px;
+}
+
+.selected{
+  border: 5px solid $pink;
+}
+
+#subheader-image{
+  float: center;
+
+  margin: {
+    bottom:25px;
+    top:15px;
+  }
+}
+
+#header{
+  text-align: center;
+  margin-top:300px;
+}
+
+#twocolumnrow{
+  @include border-radius(15px);
+  margin-top: 30px;
+  text-align: center;
+
+  .form-search{
+    width: 300px;
+    @include center;
+
+    input {
+      font-family: "cubano",sans-serif;
+      font-style: normal;
+      font-weight: 400;
+      width: 70%;
+      height: 60px;
+      font-size: 40px;
+    }
+
+    .btn{
+      height:60px;
+      font-size:40px;
+      @include rounded(20px);
+    }
+  }
+
+  .left {
+    @include column
+  }
+
+  .right {
+    @include column
+  }
+
+}
+
+#merge{
+  text-align: center;
+  .btn-danger{
+    @include rounded(30px);
+    margin:{
+      top: 15px;
+      left:auto;
+      right:auto;
+    }
+    width:400px;
+    height:50px;
+    font-size: 20px;
+  }
+}
