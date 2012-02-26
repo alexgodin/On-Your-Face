@@ -192,7 +192,7 @@ def do_the_foo(image_id, other_image_id)
   end
   
   output = []
-  [-20,-10,0,10,20].each do |bobble|
+  [-10,-5,0,5,10].each do |bobble|
     previous_image_id = image_id  
     other_face_i = 0
     puts "iterating over faces in first image"
