@@ -201,7 +201,7 @@ def do_the_foo(image_id, other_image_id)
       puts "calculating data"
       angle = face["Face"]["head_rotation"] 
       ratio = (face["Face"]["head_width"].to_f / other_face["Face"]["head_width"].to_f) * 120
-      x = face["Face"]["head_position_x"]
+      x = face["Face"]["head_position_x"] - 50
       y = face["Face"]["head_position_y"] + (face["Face"]["head_width"] / 2) + bobble
     
       json = JSON.generate([
