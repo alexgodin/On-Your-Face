@@ -54,7 +54,7 @@ get "/foo/:image_id" do
     #image not found!\
     
     puts "#{params[:photo_id]}"
-    puts "image not found on s3, getting auth token"
+    #puts "image not found on s3, getting auth token"
     token = GETTY.get_image_authorization_token(params[:image_id])    
     if token == nil || token == ""
       return "auth token error"
@@ -111,6 +111,54 @@ def do_the_foo(image_id, other_image_id)
   puts "Starting merge"
   flash = FlashPhoto.new(FLASH_USERNAME, FLASH_PASSWORD)
 
+
+  # Resize Image 1
+  url = "http://flashfotoapi.com/api/info/#{image_id}?partner_username=#{FLASH_USERNAME}&partner_apikey=#{FLASH_PASSWORD}"
+  response_json = RestClient.get url, {:content_type => :json, :accept => :json}
+  response = JSON.parse(response_json)
+  width = response["ImageVersion"][0]["width"]
+  height = response["ImageVersion"][0]["height"]
+  width_p = 500
+  height_p = ((height.to_f / width.to_f) * width_p).to_i
+  puts "height: #{height_p}. width: #{width_p}"
+    
+  photo_url = "http://flashfotoapi.com/api/get/#{image_id}&height=#{height_p}&width=#{width_p}"
+  location = (Base64.encode64 photo_url).gsub(/\n/, '')
+  url = "http://flashfotoapi.com/api/add?privacy=public&partner_username=#{FLASH_USERNAME}&partner_apikey=#{FLASH_PASSWORD}&location=#{location}"
+  response_json = RestClient.post url, '', {:content_type => :json, :accept => :json}
+  response = JSON.parse(response_json)
+  image_id = response["ImageVersion"]["image_id"]    
+  
+  
+  # url = "http://flashfotoapi.com/api/copy/#{image_id}?partner_username=#{FLASH_USERNAME}&partner_apikey=#{FLASH_PASSWORD}&width=#{width_p}&height=#{height_p}&dest_privacy=public"
+  # response_json = RestClient.get url, {:content_type => :json, :accept => :json}
+  # response = JSON.parse(response_json)
+  # image_id = response["ImageVersion"]["image_id"]
+   puts image_id
+  
+  
+  url = "http://flashfotoapi.com/api/info/#{other_image_id}?partner_username=#{FLASH_USERNAME}&partner_apikey=#{FLASH_PASSWORD}"
+  response_json = RestClient.get url, {:content_type => :json, :accept => :json}
+  response = JSON.parse(response_json)
+  width = response["ImageVersion"][0]["width"]
+  height = response["ImageVersion"][0]["height"]
+  width_p = 500
+  height_p = ((height.to_f / width.to_f) * width_p).to_i
+  puts "height: #{height_p}. width: #{width_p}"
+  photo_url = "http://flashfotoapi.com/api/get/#{other_image_id}&height=#{height_p}&width=#{width_p}"
+  location = (Base64.encode64 photo_url).gsub(/\n/, '')
+  url = "http://flashfotoapi.com/api/add?privacy=public&partner_username=#{FLASH_USERNAME}&partner_apikey=#{FLASH_PASSWORD}&location=#{location}"
+  response_json = RestClient.post url, '', {:content_type => :json, :accept => :json}
+  response = JSON.parse(response_json)
+  other_image_id = response["ImageVersion"]["image_id"]    
+  
+  # url = "http://flashfotoapi.com/api/copy/#{other_image_id}?partner_username=#{FLASH_USERNAME}&partner_apikey=#{FLASH_PASSWORD}&width=#{width_p}&height=#{height_p}&dest_privacy=public"
+  # response_json = RestClient.get url, {:content_type => :json, :accept => :json}
+  # response = JSON.parse(response_json)
+  # other_image_id = response["ImageVersion"]["image_id"]  
+   puts other_image_id
+  
+  
   puts "finding face one"
   faces_one = flash.find_faces(image_id)  
   if faces_one.size < 1
