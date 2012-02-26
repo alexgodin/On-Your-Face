@@ -30,9 +30,11 @@ $(document).ready ->
       $.ajax({ url :"/foo/#{$('.left .selected').data('id')}", async : true, crossDomain : true, success : (results) =>
         @facePhotoId = JSON.parse(results)['photo_id']
         $.ajax({ url :"/bar/#{@bodyPhotoId}/#{@facePhotoId}", async : true, crossDomain : true, success : (results) =>
-          url = JSON.parse(results)['url']
+          urls = JSON.parse(results)['urls']
           $('#garbagetext').hide()
-          $('#myModal #resultimage').html("<img src='#{url}'>")
+          for url in urls
+            console.log(url)
+            #$('#myModal #resultimage').append("<img src='#{url}' style='display:none;'>")
         })
       })
     })

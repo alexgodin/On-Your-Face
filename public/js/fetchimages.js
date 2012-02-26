@@ -85,10 +85,15 @@
                 async: true,
                 crossDomain: true,
                 success: function(results) {
-                  var url;
-                  url = JSON.parse(results)['url'];
+                  var url, urls, _i, _len, _results;
+                  urls = JSON.parse(results)['urls'];
                   $('#garbagetext').hide();
-                  return $('#myModal #resultimage').html("<img src='" + url + "'>");
+                  _results = [];
+                  for (_i = 0, _len = urls.length; _i < _len; _i++) {
+                    url = urls[_i];
+                    _results.push(console.log(url));
+                  }
+                  return _results;
                 }
               });
             }
