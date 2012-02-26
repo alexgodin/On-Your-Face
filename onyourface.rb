@@ -1,7 +1,7 @@
 require 'sinatra'
 require File.dirname(__FILE__) + "/Getty.rb"
 require 'open-uri'
-require 'image_downloader'
+#require 'image_downloader'
 require 'aws/s3'
 require File.dirname(__FILE__) + "/FlashPhoto.rb"
 
