@@ -85,16 +85,34 @@
                 async: true,
                 crossDomain: true,
                 success: function(results) {
-                  var url, urls, _i, _len, _results;
+                  var i, url, urls, _len;
                   urls = JSON.parse(results)['urls'];
                   $('#garbagetext').hide();
-                  _results = [];
-                  for (_i = 0, _len = urls.length; _i < _len; _i++) {
-                    url = urls[_i];
-                    console.log(url);
-                    _results.push($('#myModal #resultimage').append("<img src='" + url + "'"));
+                  for (i = 0, _len = urls.length; i < _len; i++) {
+                    url = urls[i];
+                    if (i !== 0) {
+                      $('#myModal #resultimage').append("<img src='" + url + "' class'notfirst'>");
+                    } else {
+                      $('#myModal #resultimage').append("<img src='" + url + "'>");
+                    }
                   }
-                  return _results;
+                  return setInterval(function() {
+                    $("#resultimage img").each(function(index) {
+                      if ($(this).is(":visible")) {
+                        console.log("" + index + " is visible toggling");
+                        $(this).toggle();
+                        if (index !== 4) {
+                          $($("#resultimage img")[index + 1]).toggle();
+                          return console.log("" + (index + 1) + " is the one to toggle");
+                        } else {
+                          $($("#resultimage img")[0]).toggle();
+                          return console.log("0 is the one to toggle");
+                        }
+                      }
+                    });
+                    console.log("finished a cycle");
+                    return arguments.callee;
+                  }, 500);
                 }
               });
             }
