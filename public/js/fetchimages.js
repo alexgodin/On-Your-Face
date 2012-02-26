@@ -99,20 +99,18 @@
                   return setInterval(function() {
                     $("#resultimage img").each(function(index) {
                       if ($(this).is(":visible")) {
-                        console.log("" + index + " is visible toggling");
                         $(this).toggle();
                         if (index !== 4) {
                           $($("#resultimage img")[index + 1]).toggle();
-                          return console.log("" + (index + 1) + " is the one to toggle");
                         } else {
                           $($("#resultimage img")[0]).toggle();
-                          return console.log("0 is the one to toggle");
                         }
+                        return false;
                       }
                     });
                     console.log("finished a cycle");
                     return arguments.callee;
-                  }, 500);
+                  }, 250);
                 }
               });
             }
