@@ -14,6 +14,7 @@ def do_the_foo(image_id, other_image_id)
     puts "no faces found"
     return
   end
+    puts "found #{faces_one.size} face(s) for body"
   
   puts "finding face two"
   faces_two = flash.find_faces(other_image_id)
@@ -21,6 +22,7 @@ def do_the_foo(image_id, other_image_id)
     puts "no faces found"
     return
   end
+  puts "found #{faces_two.size} face(s) for face"
   
   puts "initializing segmentation"
   flash.segment(other_image_id)
@@ -28,7 +30,7 @@ def do_the_foo(image_id, other_image_id)
   puts "waiting for segmentation to finish"
   i = 0
   while(true) 
-    if i > 20 
+    if i > 100 
       puts "waited too long, abandoning"
       return
     end
@@ -38,14 +40,14 @@ def do_the_foo(image_id, other_image_id)
     puts "Checking Segment Status"
     break if flash.segment_status(other_image_id)
   end
-  
-  other_face = faces_two[0]
+  other_face_i = 0
+
   
   previous_image_id = image_id
   
   puts "iterating over faces in first image"
   faces_one.each do |face|
-    
+      other_face = faces_two[other_face_i]
     puts "calculating data"
     angle = face["Face"]["head_rotation"]    
     ratio = (face["Face"]["head_width"].to_f / other_face["Face"]["head_width"].to_f) * 100
@@ -71,7 +73,9 @@ def do_the_foo(image_id, other_image_id)
     response_json = RestClient.post url, json, {:content_type => :json, :accept => :json}
     response = JSON.parse(response_json)
     previous_image_id = response["ImageVersion"]["image_id"]    
-    puts "merge stage complete"
+    other_face_i += 1
+    other_face_i = 0 if other_face_i + 1 >= faces_two.size
+    puts "merge stage complete"    
   end
   
   puts "all merges complete: result: #{previous_image_id}"

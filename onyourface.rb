@@ -67,7 +67,7 @@ get "/foo/:image_id" do
     
     file_name = "#{params[:image_id]}.jpg"
     
-    download getty_url, "tmp/#{file_name}"
+    #download getty_url, "tmp/#{file_name}"
     #AWS::S3::S3Object.store(file_name, open("tmp/#{file_name}"), 'onyourface.biz')
     #obj = AWS::S3::S3Object.find file_name, BUCKET_NAME
     #url = obj.url
@@ -90,8 +90,9 @@ get "/foo/:image_id" do
 end
 
 get "/bar/:image_id/:other_image_id" do
-  id = do_the_foo(params[:image_id], params[:other_image_id])
-  {:url => "http://flashfotoapi.com/api/get/#{id}"}.to_json
+  urls = do_the_foo(params[:image_id], params[:other_image_id])
+  #{:url => "http://flashfotoapi.com/api/get/#{id}"}.to_json
+  {:urls => urls}
 end
 
 
@@ -116,6 +117,7 @@ def do_the_foo(image_id, other_image_id)
     puts "no faces found"
     return
   end
+  puts "found #{faces_one.size} face(s) for body"
   
   puts "finding face two"
   faces_two = flash.find_faces(other_image_id)
@@ -123,7 +125,7 @@ def do_the_foo(image_id, other_image_id)
     puts "no faces found"
     return
   end
-  
+  puts "found #{faces_two.size} face(s) for face"
   puts "initializing segmentation"
   flash.segment(other_image_id)
   
@@ -141,42 +143,59 @@ def do_the_foo(image_id, other_image_id)
     break if flash.segment_status(other_image_id)
   end
   
-  other_face = faces_two[0]
-  
-  previous_image_id = image_id
-  
-  puts "iterating over faces in first image"
-  faces_one.each do |face|
+  output = []
+  [-6,-3,0,3,6].each do |bobble|
+    previous_image_id = image_id  
+    other_face_i = 0
+    puts "iterating over faces in first image"
+    faces_one.each do |face|
+      other_face = faces_two[other_face_i]
+      puts "calculating data"
+      angle = face["Face"]["head_rotation"] + bobble 
+      ratio = (face["Face"]["head_width"].to_f / other_face["Face"]["head_width"].to_f) * 120
+      x = face["Face"]["head_position_x"] - 100
+      y = face["Face"]["head_position_y"] + (face["Face"]["head_width"] / 2)
     
-    puts "calculating data"
-    angle = face["Face"]["head_rotation"]    
-    ratio = (face["Face"]["head_width"].to_f / other_face["Face"]["head_width"].to_f) * 100
-    x = face["Face"]["head_position_x"]
-    y = face["Face"]["head_position_y"] + (face["Face"]["head_width"] / 2)
-    
-    json = JSON.generate([
-        {
-          "image_id" => previous_image_id
-        }, { 
-          "image_id" => other_image_id, 
-          "version" => "SoftMasked", 
-          "x" => x, 
-          "y" => y, 
-          "scale" => ratio, 
-          "angle" => angle, 
-          "flip" => 0
-        } 
-    ])
-    
-    puts "merging"
-    url = "http://flashfotoapi.com/api/merge?partner_username=#{FLASH_USERNAME}&partner_apikey=#{FLASH_PASSWORD}&privacy=public"
-    response_json = RestClient.post url, json, {:content_type => :json, :accept => :json}
-    response = JSON.parse(response_json)
-    previous_image_id = response["ImageVersion"]["image_id"]    
-    puts "merge stage complete"
+      json = JSON.generate([
+          {
+            "image_id" => previous_image_id
+          }, { 
+            "image_id" => other_image_id, 
+            "version" => "SoftMasked", 
+            "x" => x, 
+            "y" => y, 
+            "scale" => ratio, 
+            "angle" => angle, 
+            "flip" => 0
+          } 
+      ])
+      puts json
+      puts "merging"
+      url = "http://flashfotoapi.com/api/merge?partner_username=#{FLASH_USERNAME}&partner_apikey=#{FLASH_PASSWORD}&privacy=public"
+      response_json = RestClient.post url, json, {:content_type => :json, :accept => :json}
+      response = JSON.parse(response_json)
+      previous_image_id = response["ImageVersion"]["image_id"]    
+      other_face_i += 1
+      other_face_i = 0 if other_face_i + 1 >= faces_two.size
+      puts "merge stage complete"
+    end
+    output << previous_image_id
   end
   
-  puts "all merges complete: result: #{previous_image_id}"
-  puts previous_image_id
-  return previous_image_id
+  url = "http://flashfotoapi.com/api/info/#{output[0]}?partner_username=#{FLASH_USERNAME}&partner_apikey=#{FLASH_PASSWORD}"
+  response_json = RestClient.get url, {:content_type => :json, :accept => :json}
+  response = JSON.parse(response_json)
+  width = response["ImageVersion"][0]["width"]
+  height = response["ImageVersion"][0]["height"]
+  
+  puts "height: #{height}. width: #{width}"
+  
+  width_p = 500
+  height_p = ((height.to_f / width.to_f) * width_p).to_i
+  puts "height: #{height_p}. width: #{width_p}"
+  output.map{|o| "http://flashfotoapi.com/api/get/510?width=#{width_p}&height=#{height_p}" }
+  
+  #puts "all merges complete: result: #{previous_image_id}"
+
+  #return previous_image_id
 end

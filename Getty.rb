@@ -63,7 +63,7 @@ class Getty
           "SearchPhrase" => search_phrase
         },
         "Filter"        => {
-          "ImageFamily"  => ["creative"]
+          "ImageFamily"  => ["editorial"]
         },
         "ResultOptions" => {
           "IncludeKeywords" => false,
