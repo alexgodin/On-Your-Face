@@ -44,12 +44,12 @@ end
 
 get "/foo/:image_id" do  
   url = ""
-  begin
-    puts "finding file on s3"
-    obj = AWS::S3::S3Object.find "#{params[:image_id]}.jpg", BUCKET_NAME
-    puts "file found on s3"
-    url = obj.url
-  rescue
+  #begin
+    #puts "finding file on s3"
+  #  obj = AWS::S3::S3Object.find "#{params[:image_id]}.jpg", BUCKET_NAME
+  #  puts "file found on s3"
+  #  url = obj.url
+  #rescue
     #image not found!\
     puts "image not found on s3, getting auth token"
     token = GETTY.get_image_authorization_token(params[:image_id])    
@@ -65,10 +65,12 @@ get "/foo/:image_id" do
     file_name = "#{params[:image_id]}.jpg"
     
     download getty_url, "tmp/#{file_name}"
-    AWS::S3::S3Object.store(file_name, open("tmp/#{file_name}"), 'onyourface.biz')
-    obj = AWS::S3::S3Object.find file_name, BUCKET_NAME
-    url = obj.url
-  end
+    #AWS::S3::S3Object.store(file_name, open("tmp/#{file_name}"), 'onyourface.biz')
+    #obj = AWS::S3::S3Object.find file_name, BUCKET_NAME
+    #url = obj.url
+    
+    url = getty_url
+  #end
   
   puts "url of file on s3 #{url}"
   
@@ -79,12 +81,14 @@ get "/foo/:image_id" do
   puts photo_id
   
   
-  "<html><body><a href='#{url}'>#{photo_id}</a></body></html>"
+  #{}"<html><body><a href='#{url}'>#{photo_id}</a></body></html>"
   #{:url => url}.to_json
+  {:photo_id => photo_id}.to_json
 end
 
 get "/bar/:image_id/:other_image_id" do
-  
+  id = do_the_foo(params[:image_id], params[:other_image_id])
+  {:url => "http://flashfotoapi.com/api/get/#{id}"}.to_json
 end
 
 

@@ -4,7 +4,7 @@ require 'rest_client'
 FLASH_USERNAME = "alex"
 FLASH_PASSWORD = "i6tNMuI1zSloXbQyIjaDcMtscKU0eOzH"
 
-def foo(image_id, other_image_id)
+def do_the_foo(image_id, other_image_id)
   puts "Starting merge"
   flash = FlashPhoto.new(FLASH_USERNAME, FLASH_PASSWORD)
 
@@ -67,7 +67,7 @@ def foo(image_id, other_image_id)
     ])
     
     puts "merging"
-    url = "http://flashfotoapi.com/api/merge?partner_username=#{FLASH_USERNAME}&partner_apikey=#{FLASH_PASSWORD}"
+    url = "http://flashfotoapi.com/api/merge?partner_username=#{FLASH_USERNAME}&partner_apikey=#{FLASH_PASSWORD}&privacy=public"
     response_json = RestClient.post url, json, {:content_type => :json, :accept => :json}
     response = JSON.parse(response_json)
     previous_image_id = response["ImageVersion"]["image_id"]    
@@ -83,4 +83,4 @@ RestClient.log = "/dev/stdout"
 image_id = ARGV[0]
 other_image_id = ARGV[1]
 
-foo(image_id, other_image_id)
+do_the_foo(image_id, other_image_id)
